@@ -75,6 +75,7 @@ function preload() {
   girlCropped = loadImage('assets/girlCropped.png');
   titleScreenBackground = loadImage("assets/background.png");
   bossOfficeBackground = loadImage("assets/bossOffice.png");
+  mikeBackground = loadImage("assets/mikeOffice.png");
   loseScreenBackground = loadImage("assets/loseBackground.png");
   winScreenBackground = loadImage("assets/winBackground.png");
   factScreenBackground = loadImage("assets/factScreen.png");
