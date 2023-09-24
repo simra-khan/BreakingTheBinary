@@ -95,22 +95,20 @@ function preload() {
   factScreenBackground = loadImage("assets/factScreen.png");
 
   // load sprites
-  bossSprite = loadImage("assets/boss.png");
-  mikeSprite = loadImage("assets/mike.png");
+  bossSprite = loadImage('assets/boss.png');
+  mikeSprite = loadImage('assets/mike.png');
   sprite = bossSprite;
 
   // Load the 12 images into the flowerImages array
   for (var i = 1; i <= 12; i++) {
-    var imageName = "micro" + i + ".png";
+    var imageName = 'assets/micro' + i + '.png';
     flowerImages.push(loadImage(imageName));
   }
   // Load the two images into the dropImages array
-  dropImages.push(loadImage('1.png')); 
-  dropImages.push(loadImage('2.png')); 
+  dropImages.push(loadImage('assets/1.png')); 
+  dropImages.push(loadImage('assets/2.png')); 
   // Load the background image
-  backgroundImage = loadImage('bgB.png');
-  // Load the girl image
-  girlImage = loadImage('girl.png');
+  backgroundImage = loadImage('assets/bgB.png');
 }
 
 function setup() {
@@ -130,7 +128,8 @@ function setup() {
   monologue = [0, 1, 2, 3, 4, 5, 6, 7, 16, 20, 21, 22, 23, 37, 38, 39, 40, 41, 42, 43, 44, 45];
   you = [8, 12, 17, 19, 25, 27, 29, 31, 33, 36];
   boss = [9, 10, 11, 13, 14, 15, 18];
-  mike = [24, 26, 28, 30, 32, 34, 35];
+  mike = [24, 26, 28, 30, 32, 34, 35];  
+  
 }
 
 function draw() {
