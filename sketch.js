@@ -11,14 +11,98 @@ let showSprite = false;
 
 let mainText = [];
 
-var ship;
-var flowers = [];
-var drops = [];
-
 // Define an array to store flower images
-var flowerImages = [];
+let flowerImages = [];
 // Define an array to store drop images
-var dropImages = [];
+let dropImages = [];
+
+// Additional constructors
+function Drop(x, y, img) {
+  this.x = x;
+  this.y = y;
+  this.r = 8;
+  this.toDelete = false;
+  this.img = img; // Store the image for the drop
+
+  this.show = function () {
+    noStroke();
+    fill(150, 0, 200);
+    image(this.img, this.x, this.y, this.r * 2, this.r * 2);
+  }
+
+  this.evaporate = function () {
+    this.toDelete = true;
+  }
+
+  this.hits = function (flower) {
+    var d = dist(this.x, this.y, flower.x, flower.y);
+    if (d < this.r + flower.r) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  this.move = function () {
+    this.y = this.y - 7;
+  }
+  // ... (code for Drop constructor)
+}
+
+function Flower(x, y, img) {
+  this.x = x;
+  this.y = y;
+  this.img = img;
+  this.r = 30;
+  this.toDelete = false;
+
+  this.xdir = 1;
+
+  this.shiftDown = function () {
+    this.xdir *= -1;
+    this.y += this.r;
+  }
+
+  this.evaporate = function () {
+    this.toDelete = true;
+  }
+
+  this.move = function () {
+    this.x = this.x + this.xdir;
+
+  }
+  this.show = function () {
+    noStroke();
+    fill(255, 0, 200);
+    image(this.img, this.x, this.y, this.r * 2, this.r * 2);
+  }
+  // ... (code for Flower constructor)
+}
+
+function Ship() {
+  this.x = width / 2;
+  this.xdir = 0;
+
+  this.show = function () {
+    fill(255);
+    rectMode(CENTER);
+    image(girlImage, this.x, height - 110, 60, 120);
+  }
+
+  this.setDir = function (dir) {
+    this.xdir = dir;
+  }
+  this.move = function (dir) {
+    if (this.x < 0) {
+      this.x = 0;
+    } else if (this.x > 943) {
+      this.x = 943;
+    } else {
+      this.x += this.xdir * 5;
+    }
+  }
+  // ... (code for Ship constructor)
+}
 
 // SCRIPT FOR PART A:
 // intro monologue scene
@@ -79,6 +163,10 @@ mainText[44] = "...What is even the point of this...";
 mainText[45] = "...";
 // PART B BEGINS
 
+var ship;
+var flowers = [];
+var drops = [];
+
 function preload() {
   // load fonts
   font = loadFont('fonts/Abaddon Bold.ttf');
@@ -99,15 +187,16 @@ function preload() {
   mikeSprite = loadImage('assets/mike.png');
   sprite = bossSprite;
 
-  // Load the 12 images into the flowerImages array
   for (var i = 1; i <= 12; i++) {
-    var imageName = 'assets/micro' + i + '.png';
+    var imageName = "assets/micro" + i + ".png";
     flowerImages.push(loadImage(imageName));
   }
+
   // Load the two images into the dropImages array
-  dropImages.push(loadImage('assets/1.png')); 
-  dropImages.push(loadImage('assets/2.png')); 
-  // Load the background image
+  dropImages.push(loadImage('assets/1.png'));
+  dropImages.push(loadImage('assets/2.png'));
+
+  // Load the background image for Part B
   backgroundImage = loadImage('assets/bgB.png');
 }
 
@@ -117,7 +206,7 @@ function setup() {
   noStroke();
 
   gameState = 0;
-  counter = 0
+  counter = 0;
   bg = titleScreenBackground;
 
   playButton = createButton("Play");
@@ -128,8 +217,27 @@ function setup() {
   monologue = [0, 1, 2, 3, 4, 5, 6, 7, 16, 20, 21, 22, 23, 37, 38, 39, 40, 41, 42, 43, 44, 45];
   you = [8, 12, 17, 19, 25, 27, 29, 31, 33, 36];
   boss = [9, 10, 11, 13, 14, 15, 18];
-  mike = [24, 26, 28, 30, 32, 34, 35];  
-  
+  mike = [24, 26, 28, 30, 32, 34, 35];
+
+  ship = new Ship();
+
+  for (var row = 0; row < 3; row++) {
+    for (var col = 0; col < 11; col++) {
+      // Generate flowers for Part B
+      // ...
+
+      // Create a new Flower object for Part B
+      // ...
+      var flowerX = col * 80 + 80;
+      var flowerY = row * 80 + 10;
+
+      // Generate a random index to select an image from the array
+      var randomIndex = floor(random(flowerImages.length));
+
+      // Create a new Flower object with the selected image
+      flowers.push(new Flower(flowerX, flowerY, flowerImages[randomIndex]));
+    }
+  }
 }
 
 function draw() {
@@ -207,10 +315,7 @@ function partAInstructionsScreen() {
 
   titleScreenButton.position(300, 350);
 
-  titleScreenButton.mouseClicked(function () {
-    counter = 0; // Reset the counter
-    titleScreen(); // Go back to the title screen
-  });
+  titleScreenButton.mouseClicked(titleScreen);
 }
 
 function partA() {
@@ -257,6 +362,11 @@ function partA() {
   textSize(30);
   text(mainText[counter], 50, 465);
 
+  if (counter > 45) {
+    gameState = 4;
+    partB();
+  }
+
 }
 
 function partBInstructionsScreen() {
@@ -270,8 +380,61 @@ function partBInstructionsScreen() {
 function partB() {
   gameState = 4;
 
-  bg = titleScreenBackground;
-  background(bg);
+  // Code for Part B
+  // ...
+
+  // Draw the background image for Part B
+  image(backgroundImage, 0, 0, width, height);
+
+  ship.show();
+  ship.move();
+  for (var i = 0; i < drops.length; i++) {
+    drops[i].show();
+    drops[i].move();
+    for (var j = 0; j < flowers.length; j++) {
+      if (drops[i].hits(flowers[j])) {
+        drops[i].evaporate();
+        flowers[j].evaporate();
+      }
+    }
+  }
+
+  var edge = false;
+
+  for (var i = 0; i < flowers.length; i++) {
+    flowers[i].show();
+    flowers[i].move();
+    if (flowers[i].x + 60 > width || flowers[i].x < 0) {
+      edge = true;
+    }
+    // Check if a flower's too low
+    if (flowers[i].y > height - 110) {
+      winScreen = false; // Set the win screen false
+      text("You Lose!", width / 2, height / 2);
+    }
+  }
+
+  // Check if there are no more flowers left
+  if (flowers.length === 0) {
+    winScreen = true; // Set the win screen true
+    text("You Win!", width / 2, height / 2);
+  }
+
+  if (edge) {
+    for (var i = 0; i < flowers.length; i++) {
+      flowers[i].shiftDown();
+    }
+  }
+  for (var i = drops.length - 1; i >= 0; i--) {
+    if (drops[i].toDelete) {
+      drops.splice(i, 1);
+    }
+  }
+  for (var i = flowers.length - 1; i >= 0; i--) {
+    if (flowers[i].toDelete) {
+      flowers.splice(i, 1);
+    }
+  }
 }
 
 function loseScreen() {
@@ -368,59 +531,68 @@ function factScreen() {
 
 }
 
+function keyReleased() {
+  if (key != ' ') {
+    ship.setDir(0);
+  }
+}
+
 function keyPressed() {
   // On space press
-  if (keyCode === 32) {
-    counter++;
+  if (gameState == 2) {
+    if (keyCode === 32) {
+      counter++;
 
-    if (counter < mainText.length) {
-      // Update displayed text
-      textToDisplay = mainText[counter];
-    } else {
-      // Handle end of the script or game logic here
-      // For example, move to the next game state.
-      gameState++;
-    }
-
-    
-    for (let i = 0; i < mainText.length; i++) {
-      // change name text
-      if (counter === monologue[i]) {
-        person = "Monologue";
-        showBox = false;
-      }
-      else if (counter === you[i]) {
-        person = "You";
-        showBox = true;
-        showSprite = true;
-      }
-      else if (counter === boss[i]) {
-        person = "Boss";
-        showBox = true;
-        showSprite = true;
-      }
-      else if (counter === mike[i]) {
-        person = "Mike";
-        showBox = true;
-        showSprite = true;
-        sprite = mikeSprite;
-      }
-      // change backgrounds
-      if (counter == 8) {
-        bg = bossOfficeBackground;
-        sprite = bossSprite;
-        showSprite = true;
-      }
-      else if (counter === 20) {
-        bg = mikeBackground;
-        showSprite = false;
-      }
-      else if (counter === 37) {
-        showSprite = false;
-      }
-      else if (counter === 38) {
-        bg = (0, 0, 0);
+      for (let i = 0; i < mainText.length; i++) {
+        // change name text
+        if (counter === monologue[i]) {
+          person = "Monologue";
+          showBox = false;
+        }
+        else if (counter === you[i]) {
+          person = "You";
+          showBox = true;
+          showSprite = true;
+        }
+        else if (counter === boss[i]) {
+          person = "Boss";
+          showBox = true;
+          showSprite = true;
+        }
+        else if (counter === mike[i]) {
+          person = "Mike";
+          showBox = true;
+          showSprite = true;
+          sprite = mikeSprite;
+        }
+        // change backgrounds
+        if (counter == 8) {
+          bg = bossOfficeBackground;
+          sprite = bossSprite;
+          showSprite = true;
+        }
+        else if (counter === 20) {
+          bg = mikeBackground;
+          showSprite = false;
+        }
+        else if (counter === 37) {
+          showSprite = false;
+        }
+        else if (counter === 38) {
+          bg = (0, 0, 0);
+        }
       }
     }
+  }
+
+  if (key === ' ') {
+    var randomIndex = floor(random(dropImages.length));
+    var drop = new Drop(ship.x, height - 70, dropImages[randomIndex]); // Pass the selected image to the Drop constructor
+    drops.push(drop);
+  }
+  if (keyCode === RIGHT_ARROW) {
+    ship.setDir(1);
+  } else if (keyCode === LEFT_ARROW) {
+    ship.setDir(-1);
   }
 }
