@@ -11,6 +11,14 @@ let showSprite = false;
 
 let mainText = [];
 
+var ship;
+var flowers = [];
+var drops = [];
+
+// Define an array to store flower images
+var flowerImages = [];
+// Define an array to store drop images
+var dropImages = [];
 
 // SCRIPT FOR PART A:
 // intro monologue scene
@@ -90,6 +98,19 @@ function preload() {
   bossSprite = loadImage("assets/boss.png");
   mikeSprite = loadImage("assets/mike.png");
   sprite = bossSprite;
+
+  // Load the 12 images into the flowerImages array
+  for (var i = 1; i <= 12; i++) {
+    var imageName = "micro" + i + ".png";
+    flowerImages.push(loadImage(imageName));
+  }
+  // Load the two images into the dropImages array
+  dropImages.push(loadImage('1.png')); 
+  dropImages.push(loadImage('2.png')); 
+  // Load the background image
+  backgroundImage = loadImage('bgB.png');
+  // Load the girl image
+  girlImage = loadImage('girl.png');
 }
 
 function setup() {
