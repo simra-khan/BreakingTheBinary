@@ -11,6 +11,7 @@ let showSprite = false;
 
 let mainText = [];
 
+
 // SCRIPT FOR PART A:
 // intro monologue scene
 // BACKGROUND: office lounge
@@ -186,7 +187,10 @@ function partAInstructionsScreen() {
 
   titleScreenButton.position(300, 350);
 
-  titleScreenButton.mouseClicked(titleScreen);
+  titleScreenButton.mouseClicked(function () {
+    counter = 0; // Reset the counter
+    titleScreen(); // Go back to the title screen
+  });
 }
 
 function partA() {
