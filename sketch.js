@@ -9,6 +9,8 @@ let mikeSprite;
 let bossSprite;
 let showSprite = false;
 
+let mainText = [];
+
 // SCRIPT FOR PART A:
 // intro monologue scene
 // BACKGROUND: office lounge
@@ -95,6 +97,7 @@ function setup() {
   noStroke();
 
   gameState = 0;
+  counter = 0
   bg = titleScreenBackground;
 
   playButton = createButton("Play");
@@ -110,7 +113,6 @@ function setup() {
 
 function draw() {
   checkGameState();
-  background(bg);
 }
 
 function checkGameState() {
@@ -135,6 +137,7 @@ function titleScreen() {
   gameState = 0;
 
   bg = titleScreenBackground;
+  background(bg);
 
   textFont(titleFont);
 
@@ -146,7 +149,7 @@ function titleScreen() {
   playButton.position(415, 350);
   helpButton.position(370, 450);
 
-  playButton.mouseClicked(winScreen);
+  playButton.mouseClicked(partA);
   helpButton.mouseClicked(partAInstructionsScreen);
 
   noStroke();
@@ -165,16 +168,9 @@ function partAInstructionsScreen() {
   gameState = 1;
 
   bg = titleScreenBackground;
+  background(bg);
 
   textFont(titleFont);
-
-  playButton.hide();
-  helpButton.hide();
-  titleScreenButton.show();
-
-  titleScreenButton.position(300, 350);
-
-  titleScreenButton.mouseClicked(titleScreen);
 
   noStroke();
   fill(255);
@@ -184,27 +180,81 @@ function partAInstructionsScreen() {
   textSize(30);
   text("Press the spacebar to move through the text.", 200, 300);
 
+  playButton.hide();
+  helpButton.hide();
+  titleScreenButton.show();
+
+  titleScreenButton.position(300, 350);
+
+  titleScreenButton.mouseClicked(titleScreen);
 }
 
 function partA() {
   gameState = 2;
+
+  bg = mikeBackground;
+  background(bg);
+
+  noStroke();
+
+  playButton.hide();
+  helpButton.hide();
+
+  // text boxes colour
+  fill(57, 0, 64, 200);
+
+  // main text box
+  rect(0, 400, 1000, 200);
+
+  // sprite
+  if (showSprite) {
+    image(sprite, 350, 100, 300, 300);
+  }
+
+  // character name box (doesn't show when protagonist is monologuing)
+  if (showBox) {
+
+    //character name rectangle
+    fill(115, 0, 113, 200);
+    rect(50, 350, 200, 50);
+
+    // character name text
+    // character name box font colour
+    fill(255, 255, 255)
+    textFont(titleFont);
+    textSize(40);
+    text(person, 115, 385);
+  }
+
+  // main font colour
+  fill(255, 255, 255);
+  // main text 
+  textFont(font);
+  textSize(30);
+  text(mainText[counter], 50, 465);
 
 }
 
 function partBInstructionsScreen() {
   gameState = 3;
 
+  bg = titleScreenBackground;
+  background(bg);
+
 }
 
 function partB() {
   gameState = 4;
 
+  bg = titleScreenBackground;
+  background(bg);
 }
 
 function loseScreen() {
   gameState = 5;
 
   bg = loseScreenBackground;
+  background(bg);
 
   playButton.hide();
   helpButton.hide();
@@ -234,6 +284,7 @@ function winScreen() {
   gameState = 6;
 
   bg = winScreenBackground;
+  background(bg);
 
   playButton.hide();
   helpButton.hide();
@@ -277,6 +328,7 @@ function factScreen() {
   gameState = 7;
 
   bg = factScreenBackground;
+  background(bg);
 
   continueButton.hide();
   titleScreenButton.show();
@@ -290,4 +342,61 @@ function factScreen() {
   text("50% of women said they had experienced gender \ndiscrimination at work [in tech], while \nonly 19% of men said the same.", 75, 350);
   text("Something needs to change.", 75, 525);
 
+}
+
+function keyPressed() {
+  // On space press
+  if (keyCode === 32) {
+    counter++;
+
+    if (counter < mainText.length) {
+      // Update displayed text
+      textToDisplay = mainText[counter];
+    } else {
+      // Handle end of the script or game logic here
+      // For example, move to the next game state.
+      gameState++;
+    }
+
+    
+    for (let i = 0; i < mainText.length; i++) {
+      // change name text
+      if (counter === monologue[i]) {
+        person = "Monologue";
+        showBox = false;
+      }
+      else if (counter === you[i]) {
+        person = "You";
+        showBox = true;
+        showSprite = true;
+      }
+      else if (counter === boss[i]) {
+        person = "Boss";
+        showBox = true;
+        showSprite = true;
+      }
+      else if (counter === mike[i]) {
+        person = "Mike";
+        showBox = true;
+        showSprite = true;
+        sprite = mikeSprite;
+      }
+      // change backgrounds
+      if (counter == 8) {
+        bg = bossOfficeBackground;
+        sprite = bossSprite;
+        showSprite = true;
+      }
+      else if (counter === 20) {
+        bg = mikeBackground;
+        showSprite = false;
+      }
+      else if (counter === 37) {
+        showSprite = false;
+      }
+      else if (counter === 38) {
+        bg = (0, 0, 0);
+      }
+    }
+  }
 }
