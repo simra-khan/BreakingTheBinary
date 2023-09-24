@@ -69,8 +69,11 @@ mainText[45] = "...";
 // PART B BEGINS
 
 function preload() {
+  // load fonts
   font = loadFont('fonts/Abaddon Bold.ttf');
   titleFont = loadFont('fonts/fibberish.ttf');
+
+  // load images
   girlImage = loadImage('assets/girl.png');
   girlCropped = loadImage('assets/girlCropped.png');
   titleScreenBackground = loadImage("assets/background.png");
@@ -79,6 +82,11 @@ function preload() {
   loseScreenBackground = loadImage("assets/loseBackground.png");
   winScreenBackground = loadImage("assets/winBackground.png");
   factScreenBackground = loadImage("assets/factScreen.png");
+
+  // load sprites
+  bossSprite = loadImage("assets/boss.png");
+  mikeSprite = loadImage("assets/mike.png");
+  sprite = bossSprite;
 }
 
 function setup() {
@@ -87,6 +95,7 @@ function setup() {
   noStroke();
 
   gameState = 0;
+  bg = titleScreenBackground;
 
   playButton = createButton("Play");
   helpButton = createButton("Instructions");
@@ -101,6 +110,7 @@ function setup() {
 
 function draw() {
   checkGameState();
+  background(bg);
 }
 
 function checkGameState() {
@@ -122,9 +132,9 @@ function checkGameState() {
 }
 
 function titleScreen() {
-  background(titleScreenBackground);
-
   gameState = 0;
+
+  bg = titleScreenBackground;
 
   textFont(titleFont);
 
@@ -152,9 +162,9 @@ function titleScreen() {
 }
 
 function partAInstructionsScreen() {
-  background(titleScreenBackground);
-
   gameState = 1;
+
+  bg = titleScreenBackground;
 
   textFont(titleFont);
 
@@ -177,21 +187,24 @@ function partAInstructionsScreen() {
 }
 
 function partA() {
+  gameState = 2;
 
 }
 
 function partBInstructionsScreen() {
+  gameState = 3;
 
 }
 
 function partB() {
+  gameState = 4;
 
 }
 
 function loseScreen() {
-  background(loseScreenBackground);
-
   gameState = 5;
+
+  bg = loseScreenBackground;
 
   playButton.hide();
   helpButton.hide();
@@ -218,9 +231,9 @@ function loseScreen() {
 }
 
 function winScreen() {
-  background(winScreenBackground);
-
   gameState = 6;
+
+  bg = winScreenBackground;
 
   playButton.hide();
   helpButton.hide();
@@ -261,9 +274,9 @@ function winScreen() {
 }
 
 function factScreen() {
-  background(factScreenBackground);
-
   gameState = 7;
+
+  bg = factScreenBackground;
 
   continueButton.hide();
   titleScreenButton.show();
