@@ -205,7 +205,7 @@ function setup() {
 
   noStroke();
 
-  gameState = 0;
+  //gameState = 0;
   counter = 0;
   bg = titleScreenBackground;
 
@@ -445,6 +445,8 @@ function loseScreen() {
   bg = loseScreenBackground;
   background(bg);
 
+  rectMode(CORNER);
+
   playButton.hide();
   helpButton.hide();
   continueButton.show();
@@ -474,6 +476,8 @@ function winScreen() {
 
   bg = winScreenBackground;
   background(bg);
+
+  rectMode(CORNER);
 
   playButton.hide();
   helpButton.hide();
