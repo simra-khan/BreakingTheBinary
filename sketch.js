@@ -543,7 +543,6 @@ function resetVariables() {
   counter = 0;
   person = "Monologue";
   showBox = false;
-  bg;
   showSprite = false;
 
   ship = new Ship();
