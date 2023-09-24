@@ -321,7 +321,9 @@ function partAInstructionsScreen() {
 function partA() {
   gameState = 2;
 
-  bg = mikeBackground;
+  if (counter == 0) {
+    bg = mikeBackground;
+  }
   background(bg);
 
   noStroke();
@@ -407,17 +409,17 @@ function partB() {
     if (flowers[i].x + 60 > width || flowers[i].x < 0) {
       edge = true;
     }
-    // Check if a flower's too low
+    // Check if a flower's too low (LOSE CONDITION)
     if (flowers[i].y > height - 110) {
-      winScreen = false; // Set the win screen false
-      text("You Lose!", width / 2, height / 2);
+      gameState = 5;
+      loseScreen();
     }
   }
 
-  // Check if there are no more flowers left
+  // Check if there are no more flowers left (WIN CONDITION)
   if (flowers.length === 0) {
-    winScreen = true; // Set the win screen true
-    text("You Win!", width / 2, height / 2);
+    gameState = 6;
+    winScreen();
   }
 
   if (edge) {
