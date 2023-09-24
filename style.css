@@ -1,0 +1,29 @@
+@font-face {
+  font-family: "Fibberish";
+  src: url("../fonts/fibberish.ttf") format("truetype");
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+canvas {
+  display: block;
+}
+
+button {
+  background-color: rgb(115, 0, 113);
+  border-radius: 10px;
+  border: none;
+  padding: 15px 60px;
+  color: white;
+  font-size: 30px;
+  font-family: 'Fibberish';
+}
+
+button:hover {
+  cursor: pointer;
+  background-color: rgb(57, 0, 64);
+}
