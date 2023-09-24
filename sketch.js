@@ -365,8 +365,8 @@ function partA() {
   text(mainText[counter], 50, 465);
 
   if (counter > 45) {
-    gameState = 4;
-    partB();
+    gameState = 3;
+    partBInstructionsScreen();
   }
 
 }
@@ -374,14 +374,31 @@ function partA() {
 function partBInstructionsScreen() {
   gameState = 3;
 
-  bg = titleScreenBackground;
-  background(bg);
+  image(backgroundImage, 0, 0, width, height);
 
+  textFont(titleFont);
+
+  noStroke();
+  fill(255);
+  textSize(150);
+  text("instructions", 150, 200);
+
+  textSize(30);
+  text("Press the spacebar to shoot the code.", 235, 300);
+  text("Use the left and right arrow keys to move yourself.", 160, 350);
+  text("Hit all of the microagressions before they reach the bottom!.", 110, 400);
+
+  playButton.show();
+
+  playButton.position(415, 450);
+
+  playButton.mouseClicked(partB);
 }
 
 function partB() {
   gameState = 4;
 
+  playButton.hide();
   // Code for Part B
   // ...
 
@@ -567,8 +584,10 @@ function resetVariables() {
 }
 
 function keyReleased() {
-  if (key != ' ') {
-    ship.setDir(0);
+  if (gameState == 4) {
+    if (key != ' ') {
+      ship.setDir(0);
+    }
   }
 }
 
@@ -620,14 +639,16 @@ function keyPressed() {
     }
   }
 
-  if (key === ' ') {
-    var randomIndex = floor(random(dropImages.length));
-    var drop = new Drop(ship.x, height - 70, dropImages[randomIndex]); // Pass the selected image to the Drop constructor
-    drops.push(drop);
-  }
-  if (keyCode === RIGHT_ARROW) {
-    ship.setDir(1);
-  } else if (keyCode === LEFT_ARROW) {
-    ship.setDir(-1);
+  if (gameState == 4) {
+    if (key === ' ') {
+      var randomIndex = floor(random(dropImages.length));
+      var drop = new Drop(ship.x, height - 70, dropImages[randomIndex]); // Pass the selected image to the Drop constructor
+      drops.push(drop);
+    }
+    if (keyCode === RIGHT_ARROW) {
+      ship.setDir(1);
+    } else if (keyCode === LEFT_ARROW) {
+      ship.setDir(-1);
+    }
   }
 }
