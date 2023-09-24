@@ -526,6 +526,7 @@ function factScreen() {
   continueButton.hide();
   titleScreenButton.show();
   titleScreenButton.position(550, 475);
+  titleScreenButton.mouseClicked(resetVariables);
 
   noStroke();
   fill(255);
@@ -535,6 +536,35 @@ function factScreen() {
   text("50% of women said they had experienced gender \ndiscrimination at work [in tech], while \nonly 19% of men said the same.", 75, 350);
   text("Something needs to change.", 75, 525);
 
+}
+
+function resetVariables() {
+  gameState = 0;
+  counter = 0;
+  person = "Monologue";
+  showBox = false;
+  bg;
+  showSprite = false;
+
+  ship = new Ship();
+
+  for (var row = 0; row < 3; row++) {
+    for (var col = 0; col < 11; col++) {
+      // Generate flowers for Part B
+      // ...
+
+      // Create a new Flower object for Part B
+      // ...
+      var flowerX = col * 80 + 80;
+      var flowerY = row * 80 + 10;
+
+      // Generate a random index to select an image from the array
+      var randomIndex = floor(random(flowerImages.length));
+
+      // Create a new Flower object with the selected image
+      flowers.push(new Flower(flowerX, flowerY, flowerImages[randomIndex]));
+    }
+  }
 }
 
 function keyReleased() {
